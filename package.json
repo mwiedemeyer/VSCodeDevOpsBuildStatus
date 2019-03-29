@@ -29,7 +29,7 @@
 	"activationEvents": [
 		"*"
 	],
-	"icon": "./media/icon.png",
+	"icon": "media/icon.png",
 	"main": "./out/extension.js",
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
