@@ -1,18 +1,35 @@
 {
-	"name": "og-devops-status",
-	"displayName": "og-devops-status",
+	"name": "devops-build-status",
+	"displayName": "DevOps Build Status",
 	"description": "Shows who is running a build in Azure DevOps",
 	"publisher": "mwiedemeyer",
-	"version": "0.0.1",
+	"version": "0.1.0",
+	"author": {
+		"name": "Marco Wiedemeyer",
+		"url": "https://blog.mwiedemeyer.de"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/mwiedemeyer/VSCodeDevOpsBuildStatus.git"
+	},
 	"engines": {
 		"vscode": "^1.32.0"
 	},
 	"categories": [
 		"Other"
 	],
+	"contributes": {
+		"commands":[
+			{
+				"command": "resetDevOpsConfig",
+				"title": "DevOpsBuildStatus: Reset configuration"
+			}
+		]
+	},
 	"activationEvents": [
 		"*"
 	],
+	"icon": "./media/icon.png",
 	"main": "./out/extension.js",
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
