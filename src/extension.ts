@@ -91,16 +91,21 @@ function updateStatusBarItem() {
 				const buildTitle = data.runningRequests[0].definition.name;
 				const buildDetailsUrl = data.runningRequests[0].owner._links.self.href;
 
-				request(buildDetailsUrl, {
-					auth: {
-						username: "dummy",
-						password: devOpsToken
-					}
-				}, (error2, response2, body2) => {
-					const dataDetails = JSON.parse(body2);
-					const owner = dataDetails.requestedFor.displayName;
-					statusBarItem.text = `$(clock) ${owner} is building '${buildTitle}'`;
-				});
+				const planType = data.runningRequests[0].planType;
+				if (planType === "Release") {
+					statusBarItem.text = `$(clock) Releasing '${buildTitle}'`;
+				} else if (planType === "Build") {
+					request(buildDetailsUrl, {
+						auth: {
+							username: "dummy",
+							password: devOpsToken
+						}
+					}, (error2, response2, body2) => {
+						const dataDetails = JSON.parse(body2);
+						const owner = dataDetails.requestedFor.displayName;
+						statusBarItem.text = `$(clock) ${owner} is building '${buildTitle}'`;
+					});
+				}
 			}
 		} else {
 			statusBarItem.text = "$(thumbsup) No running builds";
