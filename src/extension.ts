@@ -88,14 +88,24 @@ function updateStatusBarItem() {
 			if (data.runningRequests.length > 1) {
 				statusBarItem.text = `$(clock) ${data.runningRequests.length} running builds`;
 			} else {
-				const buildTitle = data.runningRequests[0].definition.name;
-				const buildDetailsUrl = data.runningRequests[0].owner._links.self.href;
-
+				const defTitle = data.runningRequests[0].definition.name;
 				const planType = data.runningRequests[0].planType;
+				const detailsUrl = data.runningRequests[0].owner._links.self.href;
+
 				if (planType === "Release") {
-					statusBarItem.text = `$(clock) Releasing '${buildTitle}'`;
+					request(detailsUrl, {
+						auth: {
+							username: "dummy",
+							password: devOpsToken
+						}
+					}, (error3, response3, body3) => {
+						const dataDetails = JSON.parse(body3);
+						const owner = dataDetails.createdBy.displayName;
+						const project = dataDetails.artifacts && dataDetails.artifacts.length > 0 ? dataDetails.artifacts[0].definitionReference.project.name : "Unknown";
+						statusBarItem.text = `$(clock) ${owner} is releasing '${defTitle}' in project '${project}'`;
+					});
 				} else if (planType === "Build") {
-					request(buildDetailsUrl, {
+					request(detailsUrl, {
 						auth: {
 							username: "dummy",
 							password: devOpsToken
@@ -103,7 +113,8 @@ function updateStatusBarItem() {
 					}, (error2, response2, body2) => {
 						const dataDetails = JSON.parse(body2);
 						const owner = dataDetails.requestedFor.displayName;
-						statusBarItem.text = `$(clock) ${owner} is building '${buildTitle}'`;
+						const project = dataDetails.project.name;
+						statusBarItem.text = `$(clock) ${owner} is building '${defTitle}' in project '${project}'`;
 					});
 				}
 			}
