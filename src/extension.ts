@@ -81,6 +81,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 function updateStatusBarItem() {
 	onClickUrl = "";
+	statusBarItem.tooltip = "Azure DevOps Status";
 	request(`https://dev.azure.com/${devOpsOrg}/_apis/distributedtask/resourceusage?parallelismTag=Private&poolIsHosted=true&includeRunningRequests=true`, {
 		auth: {
 			username: "dummy",
@@ -88,7 +89,7 @@ function updateStatusBarItem() {
 		}
 	}, (error, response, body) => {
 		const data = JSON.parse(body);
-  
+
 		if (data.usedCount > 0 && data.runningRequests && data.runningRequests.length > 0) {
 
 			if (data.runningRequests.length > 1) {
@@ -99,6 +100,7 @@ function updateStatusBarItem() {
 				const detailsUrl = data.runningRequests[0].owner._links.self.href;
 				const webUrl = data.runningRequests[0].owner._links.web.href;
 				onClickUrl = webUrl;
+				statusBarItem.tooltip = `Azure DevOps Status - Click here to open the ${planType.toLowerCase()} definition`;
 
 				if (planType === "Release") {
 					request(detailsUrl, {

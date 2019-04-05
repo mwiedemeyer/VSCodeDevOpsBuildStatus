@@ -2,9 +2,10 @@
 
 All notable changes to the "og-devops-status" extension will be documented in this file.
 
-## [0.3.0]
+## [0.3.2]
 
 - Open the build or release definition web url on click at the status bar item
+- Tooltips
 
 ## [0.3.0]
 
