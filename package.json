@@ -3,7 +3,7 @@
 	"displayName": "DevOps Build Status",
 	"description": "Shows who is running a build in Azure DevOps",
 	"publisher": "mwiedemeyer",
-	"version": "0.3.0",
+	"version": "0.3.1",
 	"author": {
 		"name": "Marco Wiedemeyer",
 		"url": "https://blog.mwiedemeyer.de"
